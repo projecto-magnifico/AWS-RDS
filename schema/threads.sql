@@ -3,7 +3,9 @@
 CREATE TABLE threads (
     thread_id SERIAL PRIMARY KEY,
     name VARCHAR,
+    summary VARCHAR,
     score DECIMAL NOT NULL,
+    date_created DATE DEFAULT NOW(),
     img_url VARCHAR
 );
 
