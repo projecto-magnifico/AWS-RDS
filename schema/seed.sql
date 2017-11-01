@@ -3,11 +3,46 @@
 CREATE TABLE threads (
     thread_id SERIAL PRIMARY KEY,
     name VARCHAR,
-    summary VARCHAR,
+    summary_1 VARCHAR,
+    summary_2 VARCHAR,
+    summary_3 VARCHAR,
     score DECIMAL NOT NULL,
     date_created DATE DEFAULT NOW(),
     img_url VARCHAR
 );
+
+CREATE TABLE quizzes (
+    quiz_id SERIAL PRIMARY KEY,
+    thread_id INT,
+    question VARCHAR,
+    state VARCHAR,
+    date_created DATE DEFAULT NOW(),
+    revisit_date DATE,
+    FOREIGN KEY (thread_id) REFERENCES threads(thread_id)
+);
+
+CREATE TABLE answers (
+    answer_id SERIAL PRIMARY KEY,
+    proto VARCHAR,
+    quiz_id INT,
+    votes INT,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id)
+);
+
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  name VARCHAR
+);
+
+CREATE TABLE variations (
+    variation_id SERIAL PRIMARY KEY,
+    answer_id INT,
+    user_id INT,
+    variation VARCHAR,
+    FOREIGN KEY (answer_id) REFERENCES answers(answer_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 
 CREATE TABLE tags (
     tag_id SERIAL PRIMARY KEY,
@@ -31,7 +66,6 @@ CREATE TABLE sources (
     name VARCHAR NOT NULL,
     logo_url VARCHAR
 );
-
 
 CREATE TABLE articles (
     article_id SERIAL PRIMARY KEY,
